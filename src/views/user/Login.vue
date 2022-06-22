@@ -59,7 +59,7 @@ export default defineComponent({
     const loading = ref(false)
     const formState = reactive<FormState>({
       username: 'admin',
-      password: '123456',
+      password: 'macro123',
       remember: true,
     });
     const onFinish =async (values: any) => {
@@ -67,9 +67,11 @@ export default defineComponent({
        loading.value = true
         const res =  await api_login(values)
         console.log(res)
-        message.success('登录成功!')
+
        store.commit('setUserInfo',res)
+       await store.dispatch('getMenusList')
        await router.push({name: 'HomeLayout'})
+       message.success('登录成功!')
        } catch (error) {
 
        }

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h1 style="margin: 100px auto;text-align: center">404页面找不到！</h1>
+    <a-result status="404" title="404" sub-title="很抱歉，您访问的页面不存在。">
+      <template #extra>
+        <a-button type="primary" @click="$router.push({name:'welcome'})">返回首页</a-button>
+      </template>
+    </a-result>
   </div>
 </template>
 

@@ -1,10 +1,10 @@
-import axios from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import { message } from 'ant-design-vue';
 import Nprogress from './nprogress';
 import store from "@/store";
 
 const instance = axios.create({
-    baseURL:"http://shiyansong.cn:8888/api/private/v1/",
+    baseURL:"https://admin-api.macrozheng.com/",
     timeout: 6000
 });
 // 添加请求拦截器
@@ -21,16 +21,18 @@ instance.interceptors.request.use(function (config) {
 // 添加响应拦截器
 instance.interceptors.response.use(function (response) {
     // 对响应数据做点什么
-    const {data, meta: {msg, status}} = response.data
     Nprogress.done()
-    if (status === 200 || status === 201) {
-        return data
+    const {data, data: {message, code}} = response
+
+   if (code === 200 || code === 201) {
+        return data.data
     } else {
-        message.error(msg).then(()=>{
-            return Promise.reject(msg)
+        message.error(message).then(()=>{
+            return Promise.reject(message)
         })
 
     }
+
 }, function (error) {
     // 对响应错误做点什么
     const msg:string = error.toString();
